@@ -46,7 +46,7 @@ h2{font-family:var(--display);font-weight:400;letter-spacing:.12em;color:var(--a
 .who{display:block;font-family:var(--display);font-size:calc(var(--size)*.5);letter-spacing:.1em;margin-bottom:2px}
 .L .who{color:var(--ludo)} .M .who{color:var(--marc)} .S .who{color:var(--other)}
 .d{font-style:italic;color:var(--muted);font-size:calc(var(--size)*.62);line-height:1.4;margin:0 0 calc(var(--size)*.5)}
-.words{font-size:calc(var(--size)*.55);line-height:1.5;color:#c8cbd4;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 calc(var(--size)*.5)}
+.words{font-size:calc(var(--size)*.78);line-height:1.45;color:#c8cbd4;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 calc(var(--size)*.5)}
 .words b{color:var(--fg)}
 .b-y{color:#ffd93d}.b-p{color:#ff8fc8}.b-g{color:#b9c0cc}.b-gr{color:#5fe08a}.b-r{color:#ff5a4f}.b-bl{color:#5aa9ff}.b-k{color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}.b-v{color:#c48bff}
 .bille{font-weight:700}
@@ -73,7 +73,7 @@ h2{font-family:var(--display);font-weight:400;letter-spacing:.12em;color:var(--a
 <main id="main" aria-live="polite"></main>
 
 <script>
-const WORDS = '<b>Mots à placer</b> · toujours dire la couleur avec le nom<br><b>1er virage</b> · <b>chicane</b> (virages serrés) · <b>booster</b> (accélère) · <b>vibreurs</b> (passage de la mort, flipper) · <b>escalator</b> (la montée) · <b>aspiration</b> (coller pour doubler) · <b>DRS</b> (aileron ouvert) · <b>blistering</b> (pneus qui cloquent) · <b>safety car</b> (tout le monde ralentit)<br>Bonus : <b>apex</b> · <b>undercut</b> · <b>tête-à-queue</b> · <b>photo-finish</b> · <b>remontada</b>';
+const WORDS = '<b>Mots à placer</b> · toujours dire la couleur avec le nom<br><b>1er virage</b> · <b>chicane</b> (virages serrés) · <b>booster</b> (accélère) · <b>vibreurs</b> (passage de la mort, flipper) · <b>escalator</b> (la montée) · <b>aspiration</b> (coller pour doubler) · <b>DRS</b> (aileron ouvert) · <b>blistering</b> (pneus qui cloquent) · <b>safety car</b> (tout le monde ralentit)<br>Bonus : <b>apex</b> (l\'intérieur du virage) · <b>undercut</b> (doubler en coupant avant l\'autre) · <b>tête-à-queue</b> (demi-tour sur elle-même) · <b>photo-finish</b> (arrivée au millimètre) · <b>remontada</b> (remontée depuis l\'arrière)';
 const FB = '5 € de freebets pour le 1er, 2 € pour le 2e, 1 € pour le 3e.';
 const POD = who => [who,'Voici le podium !<br>🥇 __ remporte 5 € de freebets<br>🥈 __ remporte 2 € de freebets<br>🥉 __ remporte 1 € de freebets'];
 const H = t => ['H',t];
