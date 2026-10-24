@@ -65,9 +65,10 @@ h2{font-family:var(--display);font-weight:400;letter-spacing:.12em;color:var(--a
     <span class="sp" id="speed">vit. 3</span>
     <button id="fast" aria-label="Plus vite">+</button>
     <button id="top">↑ Début</button>
+    <button id="reload">⟳ Actualiser</button>
     <button id="theme">☀ Fond blanc</button>
     <button id="fs">⛶ Plein écran</button>
-    <span class="sp" style="min-width:0;text-align:left">Clavier : Espace = défile/stop · ↑↓ = avancer/reculer · ←→ = épisode · + − = vitesse</span>
+    <span class="sp" style="min-width:0;text-align:left">Clavier : R = actualiser · Espace = défile/stop · ↑↓ = avancer/reculer · ←→ = épisode · + − = vitesse</span>
   </div>
 </div>
 <main id="main" aria-live="polite"></main>
@@ -463,10 +464,14 @@ document.addEventListener('keydown', e => {
   else if (e.key === '-' || e.key === '_') { speed = Math.max(1, speed - 1); showSpeed(); }
 });
 document.querySelectorAll('.bar button').forEach(b => b.addEventListener('keydown', e => { if (e.code === 'Space') e.preventDefault(); }));
+const doReload = () => { try{ localStorage.setItem('mr-ep', cur); localStorage.setItem('mr-y', String(window.scrollY)) }catch(_){}; location.replace(location.pathname + '?v=' + Date.now() + '#c' + cur); };
+document.getElementById('reload').onclick = doReload;
+document.addEventListener('keydown', e => { if (e.key === 'r' || e.key === 'R') doReload(); });
 let start0 = 1;
 const m = location.hash.match(/^#c(\d{1,2})$/); if (m && +m[1]>=1 && +m[1]<=13) start0 = +m[1];
 else { try{ const s=+localStorage.getItem('mr-ep'); if (s>=1&&s<=13) start0=s }catch(_){} }
 render(start0);
+try{ const y = +localStorage.getItem('mr-y'); if (y) { localStorage.removeItem('mr-y'); setTimeout(() => window.scrollTo(0, y), 50); } }catch(_){}
 </script>
 
 </body>
