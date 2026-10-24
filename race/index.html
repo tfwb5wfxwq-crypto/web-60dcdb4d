@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Prompteur Marble Race S2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout : barre fixe en haut (épisodes + réglages), texte du prompteur en une seule colonne large, lisible de loin. Look prompteur, sombre volontairement. */
+:root{
+  --bg:#0d0f14; --panel:#161a22; --line:#262c38; --fg:#f4f2ea; --muted:#8a93a6;
+  --ludo:#6fc3ff; --marc:#ffad5c; --other:#c9b8ff; --accent:#ff4f7b;
+  --display:"Archivo Black","Arial Black",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,Segoe UI,sans-serif;
+  --size:34px;
+  color-scheme:dark;
+}
+body.blanc{--bg:#ffffff;--panel:#f1f2f5;--line:#d5d9e0;--fg:#0b0c10;--muted:#5d6577;--ludo:#0060c7;--marc:#c05600;--other:#5b3fc4;--accent:#d6214f;color-scheme:light}
+body.blanc .ctl button{background:#fff;color:var(--fg)}
+body.blanc .words{color:#3a3f4b}
+body.blanc .b-y{color:#a07800}body.blanc .b-p{color:#d4307f}body.blanc .b-g{color:#6b7280}body.blanc .b-gr{color:#138a3e}body.blanc .b-r{color:#d32f2f}body.blanc .b-bl{color:#1565c0}body.blanc .b-k{color:#000}body.blanc .b-v{color:#7b2fd0}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line);
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:8px}
+.eps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.eps::-webkit-scrollbar{display:none}
+.ep{flex:0 0 auto;min-width:44px;height:40px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--fg);
+  font:700 17px var(--body);cursor:pointer;font-variant-numeric:tabular-nums}
+.ep.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ep.today{box-shadow:inset 0 -3px 0 var(--marc)}
+.ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ctl button{height:38px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:#1f2430;color:var(--fg);font:700 15px var(--body);cursor:pointer}
+.ctl button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.ctl .sp{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;min-width:4.5em;text-align:center}
+.ep:focus-visible,.ctl button:focus-visible{outline:3px solid var(--marc);outline-offset:2px}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 60vh;max-width:1100px;margin:0 auto}
+h1{font-family:var(--display);font-weight:400;font-size:calc(var(--size)*1.15);line-height:1.1;margin:8px 0 4px;text-wrap:balance}
+.date{color:var(--muted);font-size:calc(var(--size)*.5);margin-bottom:18px}
+.props{color:var(--marc);font-size:calc(var(--size)*.5);margin-bottom:10px}
+h2{font-family:var(--display);font-weight:400;letter-spacing:.12em;color:var(--accent);font-size:calc(var(--size)*.55);margin:calc(var(--size)*1.1) 0 calc(var(--size)*.35);border-top:2px solid var(--line);padding-top:calc(var(--size)*.4)}
+.l{font-size:var(--size);line-height:1.35;margin:0 0 calc(var(--size)*.5)}
+.who{display:block;font-family:var(--display);font-size:calc(var(--size)*.5);letter-spacing:.1em;margin-bottom:2px}
+.L .who{color:var(--ludo)} .M .who{color:var(--marc)} .S .who{color:var(--other)}
+.d{font-style:italic;color:var(--muted);font-size:calc(var(--size)*.62);line-height:1.4;margin:0 0 calc(var(--size)*.5)}
+.words{font-size:calc(var(--size)*.55);line-height:1.5;color:#c8cbd4;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 calc(var(--size)*.5)}
+.words b{color:var(--fg)}
+.b-y{color:#ffd93d}.b-p{color:#ff8fc8}.b-g{color:#b9c0cc}.b-gr{color:#5fe08a}.b-r{color:#ff5a4f}.b-bl{color:#5aa9ff}.b-k{color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}.b-v{color:#c48bff}
+.bille{font-weight:700}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="eps" id="eps" role="tablist" aria-label="Épisodes"></div>
+  <div class="ctl">
+    <button id="minus" aria-label="Texte plus petit">A−</button>
+    <button id="plus" aria-label="Texte plus grand">A+</button>
+    <button id="play" aria-pressed="false">▶ Défiler</button>
+    <button id="slow" aria-label="Moins vite">−</button>
+    <span class="sp" id="speed">vit. 3</span>
+    <button id="fast" aria-label="Plus vite">+</button>
+    <button id="top">↑ Début</button>
+    <button id="theme">☀ Fond blanc</button>
+    <button id="fs">⛶ Plein écran</button>
+  </div>
+</div>
+<main id="main" aria-live="polite"></main>
+
+<script>
+const WORDS = '<b>Mots à placer</b> · toujours dire la couleur avec le nom<br><b>1er virage</b> · <b>chicane</b> (virages serrés) · <b>booster</b> (accélère) · <b>vibreurs</b> (passage de la mort, flipper) · <b>escalator</b> (la montée) · <b>aspiration</b> (coller pour doubler) · <b>DRS</b> (aileron ouvert) · <b>blistering</b> (pneus qui cloquent) · <b>safety car</b> (tout le monde ralentit)<br>Bonus : <b>apex</b> · <b>undercut</b> · <b>tête-à-queue</b> · <b>photo-finish</b> · <b>remontada</b>';
+const FB = '5 € de freebets pour le 1er, 2 € pour le 2e, 1 € pour le 3e.';
+const POD = who => [who,'Voici le podium !<br>🥇 __ remporte 5 € de freebets<br>🥈 __ remporte 2 € de freebets<br>🥉 __ remporte 1 € de freebets'];
+const H = t => ['H',t];
+const EP = [
+{n:1,t:'Le tour de magie',d:'lun 4 janv. · 20h',p:'Chapeau de magicien / cape · jeu de cartes',s:[
+H('INTRO'),
+['L',"Bonsoir ! Nouvelle bille cette saison : Mage, la violette. Et pour l'occasion, j'ai appris la magie."],
+['M',"La magie ? Ah là, tu m'intéresses !"],
+['L',"Abracadabra ! Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['L',"Chief, la jaune. Deux lames. Il coupe la femme en deux.<br>Gipsy, la rose. Championne. Elle lit l'avenir.<br>Doctor, la grise. Il fait disparaître des organes.<br>Farmer, la verte. Le lapin dans le chapeau, c'est elle qui l'élève.<br>Fireman, le rouge. Il crache du feu.<br>Fisherman, le bleu. Il fait apparaître des poissons. Ça pue.<br>Ironbot, le noir. Il croit pas à la magie. C'est un robot.<br>Et Mage, la violette ! La bille magique, je crois en elle !"],
+['L',"Marc, pioche une carte."],
+['D',"Marc pioche, regarde, la remet dans le paquet."],
+['L',"Allez hop ! Ta carte est dans ton slip."],
+['M',"N'importe quoi."],
+['D',"Il met la main dans son pantalon. Il sort la carte."],
+['M',"… Whoa, comment t'as fait ?!"],
+['L',"Un magicien révèle jamais ses secrets. C'est parti pour la course ! 3, 2, 1, partez !"],
+H('COURSE'),['W'],
+H('RÉSULTATS'),
+['L',"Voici le podium ! Je le savais déjà.<br>🥇 __ remporte 5 € de freebets<br>🥈 __ remporte 2 € de freebets<br>🥉 __ remporte 1 € de freebets"],
+H('CHUTE'),
+['L',"Dernier tour. La télépathie. Je vais lire dans la tête de ta femme."],
+['M',"Vas-y."],
+['D',"Ludo, les doigts sur les tempes."],
+['L',"Elle est avec… Étienne."],
+['M',"Étienne, à cette heure-ci ? C'est son collègue de bureau."],
+['L',"Oui oui. Elle dit son prénom plusieurs fois donc je suis sûr…"],
+['D',"Un temps."],
+['L',"Ils sont pas au bureau. Qu'est-ce qu'elle est souple, Isabelle !"],
+['M',"Attends… Ah oui, c'est vrai qu'elle est souple ! Merci à tous !"]]},
+
+{n:2,t:'Joyeux Noël 2025',d:'',p:'Paquet cadeau : pull de Noël moche (renne qui clignote) + carte écrite « JOYEUX NOËL 2025 MON POTE ! » + stylo',s:[
+H('INTRO'),
+['L',"Bienvenue sur la Marble Race, nous sommes en direct, tout peut arriver ! Marc, petit cadeau de Noël en retard."],
+['D',"Marc ouvre le paquet : un pull de Noël immonde, un renne qui clignote."],
+['M',"Ah oui… Il est… unique."],
+['L',"Il est surtout ultra rare ! Joyeux noël mon pote !"],
+['D',"Marc l'enfile. Le renne clignote toute l'émission."],
+['M',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['L',"Chief, la jaune. Deux lames, le cadeau qu'on n'ose pas ouvrir.<br>Gipsy, la rose. Imprévisible, une vraie pochette surprise.<br>Doctor, la grise. Il découpe le papier cadeau au scalpel.<br>Farmer, la verte. Verte comme un sapin, elle fauche tout.<br>Fireman, le rouge. Rouge comme une boule de Noël, il brûle tout.<br>Fisherman, le bleu. Il attend sous le sapin sans rien dire.<br>Ironbot, le noir. Aucune émotion, même en ouvrant ses cadeaux.<br>Mage, la violette. Il fait disparaître ses rivaux de la piste."],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],['D',"Commentaire sur la vidéo."],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['D',"Marc sent quelque chose dans la manche, il sort une petite carte. Sur la carte : JOYEUX NOËL 2025 MON POTE !"],
+['M',"Attends. C'est mon écriture. C'est le cadeau que je t'ai offert l'année dernière !"],
+['L',"Non, non… C'est une tradition. Un pull de Noël, ça se transmet. C'est écolo. C'est un hommage… D'ailleurs, il est où, mon cadeau, moi ?"],
+['D',"Marc reprend la carte, barre 2025, écrit 2027 au stylo et la tend à Ludo, très solennel."],
+['M',"Noël, c'est pas le cadeau, Ludo. C'est la transmission. La joie de faire passer. Un jour, cette carte, tu la donneras à ton fils. Qui la donnera à son fils… Joyeux Noël mon pote !"]]},
+
+{n:3,t:'Longue vie à la reine',d:'',p:'Galette des rois avec fève + une couronne',s:[
+H('INTRO'),
+['D',"Marc croque sa part de galette, sort la fève."],
+['M',"J'ai la fève. Je choisirai ma reine à la fin de la course."],
+['D',"Ludo se recoiffe discrètement."],
+['L',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['M',"Ma reine, c'est quelqu'un avec qui j'ai une complicité depuis tant d'années…"],
+['D',"Ludo pose la main sur son cœur."],
+['M',"Une amitié qui va bien au-delà du travail."],
+['L',"Arrête, tu vas me faire pleurer en direct."],
+['D',"Marc fixe Ludo avec tendresse pendant toute la présentation."],
+['L',"Chief, la jaune. Doré comme une frangipane, il découpe la concurrence en parts égales.<br>Gipsy, la rose. Imprévisible, elle tombe sur la fève à chaque fois.<br>Doctor, la grise. Il opère la galette au scalpel.<br>Farmer, la verte. Elle récolte les amandes, et tout le reste.<br>Fireman, le rouge. Il sort du four, attention ça brûle.<br>Fisherman, le bleu. Il attend sa part sans rien dire.<br>Ironbot, le noir. Il croque tout, même la fève.<br>Mage, la violette. Il fait disparaître la fève de votre part."],
+['M',"Belles. Mais aucune ne brille autant que ma reine."],
+['D',"Ludo rougit."],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],['D',"Commentaire sur la vidéo."],
+H('RÉSULTATS'),
+['D',"Podium expédié en trois secondes, tout le monde attend la reine."],POD('L'),
+H('CHUTE'),
+['M',"Le moment est venu de couronner ma reine. À elle, j'offre cette couronne. Mais je donnerais bien plus.<br>Mon appart.<br>Ma voiture.<br>Ma bille de collection.<br>Un rein s'il le faut."],
+['D',"Ludo se lève à moitié, ému."],
+['M',"Cette couronne, je la donne à Kevin. Notre nouveau cadreur. Avec qui j'ai énormément sympathisé et dont je suis hyper proche !"],
+['D',"Il pose la couronne sur la tête du gars hors champ."],
+['S',"LE GARS","… Stéphane."],
+['M',"Ah pardon, Stéphane !"],
+['S',"STÉPHANE","Régisseur. Arrivé hier."],
+['L',"Et l'appart ?"],
+['M',"À Kevin. Euh… Stéphane."]]},
+
+{n:4,t:'Sérum de vérité',d:'',p:'Le téléphone de Ludo qui sonne (sonnerie seule)',s:[
+H('INTRO'),
+['L',"Bienvenue sur la Marble Race, nous sommes en direct, tout peut arriver !"],
+['M',"Bonne année. Ma résolution cette année : devenir un meilleur humain, être 300 % honnête. Plus jamais de mensonge."],
+['L',"Magnifique comme résolution ! Je suis très heureux de vous retrouver."],
+['M',"Heureux ? T'es sous antidépresseurs depuis deux ans."],
+['L',"J'ai passé un super réveillon en famille."],
+['M',"Seul. Il m'a appelé à minuit pour que je lui dise bonne année."],
+['L',"Bon, s'il te plaît, arrête. Ma femme nous regarde ce soir."],
+['M',"Elle est partie en novembre."],
+['L',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+['M',"Ça, c'est vrai."],
+H('PRÉSENTATION'),
+['L',"J'ai étudié chaque bille toute la semaine."],
+['M',"Il a découvert leurs noms il y a cinq minutes."],
+['L',"Chief, la jaune. Deux lames, zéro pitié.<br>Gipsy, la rose. Imprévisible, elle broie tout sur son passage.<br>Doctor, la grise. Il opère à froid, sans anesthésie.<br>Farmer, la verte. La faucheuse, elle nettoie la piste.<br>Fireman, le rouge. Pompier pyromane, il ne laisse que des cendres.<br>Fisherman, le bleu. Calme, toxique, il ne lâche jamais rien.<br>Ironbot, le noir. Programmé pour tout écraser.<br>Et Mage, la violette. Le plus beau recrutement de l'année."],
+H('COURSE'),['W'],['D',"Commentaire sur la vidéo."],
+['L',"Quelle maîtrise de l'aspiration !"],
+['M',"Il sait pas ce que ça veut dire. Il m'a demandé en loge."],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['D',"Le téléphone de Ludo sonne. Sonnerie seule, pas de voix."],
+['L',"Ah désolé Marc ! Mes enfants m'appellent !"],
+['D',"Marc saisit le téléphone de Ludo et décroche."],
+['M',"Oui mes chéris, papa rentre bientôt."],
+['L',"… Papa ?"],
+['M',"Je mens plus, Ludo. À très vite sur la Marble Race !"]]},
+
+{n:5,t:'La montre connectée',d:'',p:'Grosse montre connectée en pâte à modeler · coussin · plaid · verre d\'eau',s:[
+H('INTRO'),
+['D',"Marc arrive, une grosse montre connectée au poignet. Il la tapote, elle fait bip."],
+['M',"Je sors de chez le cardiologue, je dois porter cette montre connectée… Mon cœur est fragile… Je dois avoir zéro contrariété, zéro mauvaise nouvelle."],
+['D',"Ludo se lève, lui tire sa chaise, lui glisse un coussin dans le dos et lui sert un verre d'eau."],
+['L',"Assieds-toi. Doucement. Tu veux un plaid, un coussin ? Je baisse la lumière ?"],
+['M',"Ça ira."],
+['D',"Ludo baisse la voix, comme dans une salle d'attente."],
+['L',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['D',"Voix de prof de yoga, un œil sur la montre de Marc. Aucune bille n'est méchante ce soir."],
+['L',"Chief, la jaune. Un rayon de soleil, il ne veut que du bien aux autres.<br>Gipsy, la rose. Elle aime tout le monde. Surtout toi, Marc.<br>Doctor, la grise. Il prend ton pouls avec bienveillance.<br>Farmer, la verte. Bio, locale, apaisante.<br>Fireman, le rouge. Rien ne brûle ce soir, tout va bien.<br>Fisherman, le bleu. Calme comme un lac. Respire avec lui.<br>Ironbot, le noir. Il est noir, mais il est gentil.<br>Mage, la violette. Elle fait disparaître le stress."],
+['D',"Bip. Marc regarde sa montre."],
+['M',"92 bpm…"],
+['L',"C'est bien. C'est très bien. On reste à 92."],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],['D',"Commentaire sur la vidéo."],
+H('RÉSULTATS'),POD('L'),
+['D',"Bip bip bip. Marc se tient la poitrine."],
+H('CHUTE'),
+['D',"Ludo, inquiet, attrape le poignet de Marc pour lire la montre. Il appuie sur l'écran. Rien ne s'allume. Le bracelet se tord sous ses doigts. Marc retire son bras, gêné."],
+['M',"Ne touche pas, c'est… fragile."],
+['D',"Ludo reprend le poignet, appuie encore. L'écran s'enfonce : c'est de la pâte à modeler."],
+['L',"C'est de la pâte à modeler ?"],
+['D',"Un temps. Marc baisse les yeux."],
+['M',"Je voulais savoir si tu tenais vraiment à moi."],
+['L',"Tu t'es foutu de moi ! Depuis le début je fais attention à tout ! À ton moindre confort ! Le coussin ! Le plaid !"],
+['M',"Test d'amitié. Tu l'as réussi."],
+['D',"Long silence. Ludo regarde Marc, puis la montre."],
+['L',"…Bien joué. J'aurais fait pareil."]]},
+
+{n:6,t:'À la vie, à la mort',d:'',p:'Faux tatouage MARBLE RACE sur l\'avant-bras · logo « Les Billes en fête » calé en régie (écrans plateau)',s:[
+H('INTRO'),
+['D',"Le logo MARBLE RACE bien visible à l'écran derrière eux."],
+['L',"Bienvenue sur la Marble Race, nous sommes en direct, tout peut arriver ! Et pour bien commencer l'année…"],
+['D',"Ludo relève sa manche : MARBLE RACE tatoué sur l'avant-bras."],
+['L',"À la vie, à la mort."],
+['M',"C'est définitif ?"],
+['L',"C'est un engagement."],
+['M',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['D',"Ludo garde la manche relevée toute la présentation."],
+['L',"Chief, la jaune. Deux lames, le genre de tatouage qu'on ne regrette jamais.<br>Gipsy, la rose. Imprévisible, elle laisse des marques indélébiles.<br>Doctor, la grise. Il pique plus fort que n'importe quel tatoueur.<br>Farmer, la verte. La faucheuse, elle nettoie la piste.<br>Fireman, le rouge. Il laisse des brûlures à vie.<br>Fisherman, le bleu. Une ancre sur le bras, calme et redoutable.<br>Ironbot, le noir. Encre noire, zéro retouche.<br>Mage, la violette. Il fait disparaître ses rivaux de la piste."],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],['D',"Commentaire sur la vidéo."],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['D',"Marc raccroche son téléphone."],
+['M',"C'était la prod. Ils veulent changer le nom de l'émission… un nom plus familial, plus français pour 2027."],
+['L',"C'est-à-dire ?"],
+['M',"LES BILLES EN FÊTE !"],
+['D',"Derrière eux, le logo à l'écran se transforme : LES BILLES EN FÊTE, typo ringarde, confettis, jingle accordéon. Ludo regarde son bras. Silence."],
+['M',"Ah bah c'est la merde mon pote ! Hahaha !"]]},
+
+{n:7,t:'Le calendrier des billes',d:'',p:'Le calendrier des billes imprimé (septembre = photo de Ludo dans les billes)',s:[
+H('INTRO'),
+['D',"Ludo arrive avec un calendrier dans les mains."],
+['L',"Les pompiers sont passés ce matin pour le calendrier. Je leur ai donné zéro."],
+['M',"Zéro ?"],
+['L',"Ça va le melon, un calendrier avec eux qui posent ? Ça va, ils sauvent pas des vies quand même ? Nous aussi on a des athlètes. Je vous présente le calendrier officiel de la Marble Race 2027."],
+['M',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['L',"Chief, la jaune. Un grain parfait. Elle prend la lumière comme personne.<br>Gipsy, la rose. La championne. Même au repos, elle a du charisme.<br>Doctor, la grise. Une rondeur… chirurgicale.<br>Farmer, la verte. Naturelle. Aucune retouche.<br>Fireman, le rouge. Brûlant. Les pompiers peuvent aller se rhabiller.<br>Fisherman, le bleu. Toujours un peu humide. Ça marche très bien en photo.<br>Ironbot, le noir. Brillant. Une carrosserie.<br>Mage, la violette. La petite nouvelle. Un regard envoûtant.<br>Elles sont toutes dans le calendrier. Elles sont magnifiques."],
+['M',"Tu m'as pas dit septembre."],
+['D',"Ludo ouvre le calendrier à septembre sans regarder et le montre face caméra : c'est une photo de Ludo, déshabillé dans des billes. Il la voit. Il referme le calendrier d'un coup. Long silence sur le plateau."],
+['L',"…Erreur d'impression. 3, 2, 1, partez !"],
+H('COURSE'),['W'],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['M',"J'ai vu ta photo dans le calendrier… J'arrête pas d'y penser, ça m'a émoustillé. Moi aussi je veux poser."],
+['L',"Ah. Bon. On peut s'arranger. Fais voir ton profil. Enlève ta chemise fais voir de la peau !"],
+['D',"Marc déboutonne. Ludo le cadre avec ses doigts, comme un photographe."],
+['L',"Ouais. Ça me parle. Octobre, c'est toi. Je t'intègre au calendrier officiel. Les amis, ne donnez rien aux pompiers. Achetez plutôt le calendrier de la Marble Race. À très vite sur la Marble Race !"]]},
+
+{n:8,t:'Dans les pommes',d:'',p:'',s:[
+H('INTRO'),
+['L',"J'ai pris 12 kilos pendant les fêtes. Ma femme m'a dit : c'est le régime ou moi."],
+['M',"Et ?"],
+['L',"Je suis au régime. Elle est partie quand même. Marc, j'ai besoin de ton soutien."],
+['M',"Compte sur moi. Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['M',"Chief, la jaune. Il a pris le melon depuis qu'il a deux lames.<br>Gipsy, la rose. Elle a la pêche, elle va mettre les bouchées doubles.<br>Doctor, la grise. Il découpe la concurrence en rondelles.<br>Farmer, la verte. Elle a du pain sur la planche.<br>Fireman, le rouge. Ça va sentir le roussi, il va tous les griller.<br>Fisherman, le bleu. Le roi pour noyer le poisson.<br>Ironbot, le noir. Soupe au lait, il démarre au quart de tour.<br>Mage, la violette. Il va rouler tout le monde dans la farine."],
+['M',"3, 2, 1, partez !"],
+H('COURSE'),['W'],
+['D',"Commentaire sur la vidéo. Marc place les expressions, Ludo pâlit à chaque fois."],
+['M',"Elles partent en rang d'oignons !<br>Serrées comme des sardines dans le premier virage !<br>La rose se fait griller !<br>Ça part en cacahuète dans la chicane !<br>La noire se prend une châtaigne sur les vibreurs !<br>Photo-finish, on coupe la poire en deux ?<br>La cerise sur le gâteau !"],
+H('RÉSULTATS'),POD('M'),
+H('CHUTE'),
+['D',"Ludo a tenu toute la course, livide. À l'arrivée, hypoglycémie, il s'effondre."],
+['M',"Oh non, réveille-toi ! C'est bon !!! Allô ?"],
+['D',"Ludo se réveille, il récupère."],
+['M',"T'étais tombé dans les pommes mon pote !"],
+['L',"Qu'est-ce que je t'ai dit sur les aliments !"],
+['D',"Ludo s'évanouit à nouveau."],
+['M',"Oh merde ! La boulette ! De viande ;)"]]},
+
+{n:9,t:'La naissance',d:'',p:'Téléphone de Ludo qui vibre · veste',s:[
+H('INTRO'),
+['D',"Le téléphone de Ludo vibre sur la table. Il décroche, se fige."],
+['L',"Quoi ? Maintenant ? … Elle a perdu les eaux."],
+['M',"Vas-y ! Fonce ! Je présente tout seul, c'est pas grave."],
+['L',"Non non non. On fait vite. Très vite."],
+['D',"Il parle en accéléré, la veste à moitié enfilée."],
+['L',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['D',"Au pas de course, un bras dans la manche, le téléphone qui vibre sans arrêt."],
+['L',"Chief, jaune, rapide.<br>Gipsy, rose, championne.<br>Doctor, gris, il accouche des gens.<br>Farmer, verte, bio.<br>Fireman, rouge, pin-pon.<br>Fisherman, bleu, poisson.<br>Ironbot, noir, robot.<br>Mage, violette, magie. Voilà."],
+['M',"Tu veux pas y aller ?"],
+['L',"Après la course. 3, 2, 1, partez !"],
+H('COURSE'),['W'],
+['D',"Ludo commente en surveillant son téléphone. Chaque vibration tombe sur une action : « Elle pousse ! » (dépassement), « Respire, respire ! » (bille bloquée), « La poche est percée ! » (sortie de piste). Marc essaie de le pousser vers la porte, Ludo revient à chaque fois au micro."],
+H('RÉSULTATS'),POD('L'),
+['D',"Le téléphone vibre encore. Ludo regarde l'écran."],
+['L',"C'est un garçon."],
+['M',"Félicitations ! Vas-y maintenant !"],
+H('CHUTE'),
+['D',"Ludo pose sa veste, se rassoit tranquillement."],
+['L',"Écoute… j'ai réfléchi et je préfère louper ce moment et présenter les billes !"],
+['M',"C'est tout à ton honneur mon Lionel"],
+['L',"La marble Race avant la famille ! Vous passerez toujours avant les amis ! Les enfants passeront après ! C'est vous ma famille !"]]},
+
+{n:10,t:'Le prompteur',d:'',p:'Prompteur avec le texte « boulangerie »',s:[
+H('INTRO'),
+['D',"Ludo regarde droit la caméra, très pro, et lit le prompteur mot pour mot, sans réfléchir."],
+['L',"Bonsoir à tous et bienvenue dans la Marble Race, la course la plus croustillante de la soirée, cuite au feu de bois."],
+['D',"Micro-pause, puis il continue."],
+['M',"Ah oui, j'ai oublié de te dire. Mon petit cousin est en alternance en boulangerie, il a pas trouvé de stage, je l'arrange. Je l'ai mis au prompteur. Ça te dérange pas ?"],
+['L',"…Non. Course en 2 tours, comme une pâte qu'on rabat deux fois. Les jeux sont faits, vous ne pouvez plus parier. "+FB+" « Le pain du jour est à 1,20 €. »"],
+H('PRÉSENTATION'),
+['D',"Ludo lit tout. Chaque bille est comparée à du pain. Ton très sérieux."],
+['L',"Chief, la jaune. Dorée comme une baguette tradition. Croustillante à l'extérieur, impitoyable à l'intérieur.<br>Gipsy, la rose. Une brioche.<br>Doctor, la grise. Pain de seigle. Personne l'aime.<br>Farmer, la verte. Moulue à la meule de pierre. Farine complète, zéro pitié.<br>Fireman, le rouge. Attention, ça brûle.<br>Fisherman, le bleu. Une fougasse aux olives. On sait pas ce qu'il fait là.<br>Ironbot, le noir. Trop cuit.<br>Mage, la violette. Viennoiserie mystère."],
+['L',"3, 2, 1… enfournez !"],
+H('COURSE'),['W'],
+H('RÉSULTATS'),
+['L',"Voici la fournée du jour !<br>🥇 __ remporte 5 € de freebets<br>🥈 __ remporte 2 € de freebets<br>🥉 __ remporte 1 € de freebets"],
+H('CHUTE'),
+['D',"Ludo lâche le prompteur des yeux et se tourne vers Marc."],
+['L',"Mais Marc… ça n'a AUCUN sens de le ramener ici. Il fait du pain. On fait des billes. Il y a zéro rapport. Zéro."],
+['M',"C'est rond, une bille… comme une meule, c'est rond… ça passe !"],
+['L',"C'est ton argument ? C'est rond ? Une roue de voiture aussi, c'est rond, tu vas ramener ton garagiste ?"],
+['M',"Mon filleul est garagiste, oui. Il vient jeudi."],
+['L',"À très vite sur la Marble Race."]]},
+
+{n:11,t:'Les adieux',d:'ven 8 janv. · 22h',p:'Chapeaux pointus · ballon dégonflé · gobelets · café',s:[
+H('INTRO'),
+['D',"Ambiance pot de départ : chapeaux pointus, un ballon dégonflé, des gobelets."],
+['L',"Mesdames et messieurs, c'est la dernière course de la saison. Ce soir, on se dit adieu."],
+['M',"Comme c'est la dernière course, tout le monde va en prendre pour son grade ! On va pas vous rater !"],
+['L',"Raté comme Yvan, le cameraman ! T'es un raté mon pote ! Casse-toi !"],
+['D',"Ils échangent un regard vers la régie."],
+['L',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+['M',"Allez, présentation des billes rapido, stp ! J'ai envie de me casser !"],
+H('PRÉSENTATION'),
+['L',"Chief, la jaune. Il part à la retraite. Il a promis de nous écrire.<br>Gipsy, la rose. Championne en titre. Une dernière danse.<br>Doctor, la grise. Il nous a soignés toute la saison. Merci docteur.<br>Farmer, la verte. Elle retourne à la terre.<br>Fireman, le rouge. Il éteindra la lumière en partant.<br>Fisherman, le bleu. Il largue les amarres.<br>Ironbot, le noir. Il ne pleure pas. Il ne peut pas.<br>Mage, la violette. Arrivée cette saison, déjà partie. La magie."],
+['M',"Elle va terriblement nous manquer… je ne parle pas de l'équipe technique derrière la caméra mais bien de Mage la bille ! Haha !"],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['D',"Ludo se lève, face caméra, très solennel."],
+['L',"La régie. Le réal. Le son. Je vous l'annonce maintenant, si le café était amer, c'est que c'était pas du café."],
+['M',"C'était notre pisse !"],
+['L',"Ah ça fait du bien de se défouler !"],
+['D',"Marc écoute son oreillette."],
+['M',"Attends comment ça il reste 2 épisodes ? Tu te fous de notre gueule."],
+['D',"Silence."],
+['M',"Oh putain ! Heu, c'était une blague !"],
+['L',"Le café est délicieux. On rigolait, regardez, je le bois !"]]},
+
+{n:12,t:'Retour surprise',d:'sam 9 janv. · 20h',p:'Téléphone de Ludo',s:[
+H('INTRO'),
+['D',"Ils arrivent tranquillement, comme si de rien n'était. Plus de chapeaux, plus de ballon. Marc a un grand sourire de bénévole."],
+['L',"Vous pensiez que la Marble Race, c'était fini, mais nous revoilà ! Bonjour Lionel !"],
+['M',"Surprise ! C'est pas terminé ! Bon sinon j'ai réfléchi et j'annonce : je fais don de l'intégralité de mon salaire à une association caritative."],
+['L',"Ah. Super. Bravo. Magnifique."],
+['M',"ON fait don de NOTRE salaire mesdames et messieurs ! Pas vrai Lionel ?"],
+['D',"Un temps. Ludo regarde la caméra."],
+['L',"Heu… Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier ! "+FB],
+H('PRÉSENTATION'),
+['D',"Marc présente, la main sur le cœur : chaque bille court pour une bonne cause."],
+['M',"Chief, la jaune. Il donne son sang tous les mois.<br>Gipsy, la rose. Elle tricote des bonnets pour les orphelins.<br>Doctor, la grise. Il opère gratuitement.<br>Farmer, la verte. Elle plante un arbre à chaque course.<br>Fireman, le rouge. Pompier bénévole.<br>Fisherman, le bleu. Il relâche tous ses poissons.<br>Ironbot, le noir. Il donne 100 % de son salaire.<br>Mage, la violette. Elle fait apparaître des dons."],
+['M',"Allez tu fais le virement mon pote ?"],
+['L',"C'est le moment de lancer la course ! Le décompte commence ! 3, 2, 1, partez !"],
+H('COURSE'),['W'],
+H('RÉSULTATS'),POD('M'),
+H('CHUTE'),
+['D',"Marc sort son téléphone, ému."],
+['M',"L'asso vient de m'écrire. Ils sont hyper heureux pour le don, j'ai viré mon salaire et toutes mes économies, soit un pécule de 1150 euros !!!"],
+['L',"Attends mais tu tiens mon téléphone là !"],
+['M',"Oh putain oui ! C'est ton portable et j'ai viré tout depuis ton compte !… mais c'est ok… ?"],
+['L',"… C'est ok, bien sûr, c'est la Marble Race ! On est généreux ! Ciao !"]]},
+
+{n:13,t:'La vraie fin',d:'dim 10 janv. · 20h',p:'Quelqu\'un qui retire les chaises · écrans et lumière qu\'on éteint · micros retirés',s:[
+H('INTRO'),
+['D',"Dimanche soir. Ludo et Marc sont assis, émus, très solennels."],
+['L',"Cette fois, c'est vraiment la dernière course de la saison. C'est la fin, les amis. On doit rendre le studio."],
+['D',"Quelqu'un entre dans le champ et leur retire leurs chaises. Ils se retrouvent debout."],
+['M',"Ah. Maintenant ? On doit le rendre maintenant ?"],
+['L',"Ah pardon, on pensait qu'on l'avait jusqu'à ce soir. D'accord. D'accord."],
+['M',"Course en 2 tours. Les jeux sont faits, vous ne pouvez plus parier. "+FB],
+H('PRÉSENTATION'),
+['D',"Debout, sans chaise, ils présentent les billes comme si de rien n'était."],
+['L',"Elles, au moins, on leur laisse la piste.<br>Chief, la jaune. Dernier soir, et toujours zéro pitié.<br>Gipsy, la rose. Notre championne. Elle veut partir comme elle est arrivée : devant.<br>Doctor, la grise. Une dernière opération, et elle range le bistouri.<br>Farmer, la verte. Elle a déjà fait sa valise. Elle retourne aux champs.<br>Fireman, le rouge. Il a promis un dernier incendie avant d'éteindre la lumière.<br>Fisherman, le bleu. Toute la saison à pêcher. Ce soir, il veut le gros poisson.<br>Ironbot, le noir. Il ne pleure pas. Il n'est pas programmé pour.<br>Mage, la violette. Arrivée cette saison. Ce soir, elle disparaît.<br>Huit billes. Une dernière course."],
+['L',"3, 2, 1, partez !"],
+H('COURSE'),['W'],['D',"Commentaire normal, toujours debout."],
+H('RÉSULTATS'),POD('L'),
+H('CHUTE'),
+['D',"Eux vendent la chaleur humaine de l'aventure, et autour d'eux on éteint tout, petit à petit, sans les attendre."],
+['L',"Bon. Ben voilà. C'était magnifique, cette aventure."],
+['D',"Les écrans derrière eux s'éteignent."],
+['M',"…Mais attendez, on n'a pas fini."],
+['L',"C'était une aventure humaine, avant tout. Une équipe. Une famille…"],
+['D',"Une partie de la lumière s'éteint."],
+['M',"Ah. Ben ça fait plaisir."],
+['L',"Merci à toute l'équipe, à tous ceux qui ont…"],
+['D',"On leur retire leurs micros. Ils finissent sans micro, en criant un peu."],
+['L',"…À TRÈS BIENTÔT POUR UNE PROCHAINE SAISON DE LA MARBLE RACE !"]]}
+];
+
+const BILLES = {Chief:'b-y',Gipsy:'b-p',Doctor:'b-g',Farmer:'b-gr',Fireman:'b-r',Fisherman:'b-bl',Ironbot:'b-k',Mage:'b-v'};
+const deco = s => s.replace(/\b(Chief|Gipsy|Doctor|Farmer|Fireman|Fisherman|Ironbot|Mage)\b/g, m => `<span class="bille ${BILLES[m]}">${m}</span>`)
+  .replace(/(5|2|1) € de freebets/g,'<b>$1 €</b> de freebets').replace(/(5|2|1) € pour le/g,'<b>$1 €</b> pour le');
+const main = document.getElementById('main'), eps = document.getElementById('eps');
+let cur = 1;
+function render(n){
+  cur = n; const e = EP[n-1];
+  let h = `<h1>C${e.n} · ${e.t}</h1>`;
+  if (e.d) h += `<div class="date">${e.d}</div>`;
+  if (e.p) h += `<div class="props">Accessoires : ${e.p}</div>`;
+  for (const x of e.s){
+    if (x[0]==='H') h += `<h2>${x[1]}</h2>`;
+    else if (x[0]==='W') h += `<div class="words">${WORDS}</div>`;
+    else if (x[0]==='D') h += `<p class="d">${x[1]}</p>`;
+    else if (x[0]==='S') h += `<p class="l S"><span class="who">${x[1]}</span>${deco(x[2])}</p>`;
+    else h += `<p class="l ${x[0]}"><span class="who">${x[0]==='L'?'LUDO':'MARC'}</span>${deco(x[1])}</p>`;
+  }
+  main.innerHTML = h;
+  document.querySelectorAll('.ep').forEach(b=>{const on=+b.dataset.n===n;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  window.scrollTo(0,0);
+  try{ localStorage.setItem('mr-ep',n) }catch(_){}
+  history.replaceState(null,'','#c'+n);
+}
+EP.forEach(e=>{const b=document.createElement('button');b.className='ep'+(e.n<=6?' today':'');b.dataset.n=e.n;b.textContent='C'+e.n;b.setAttribute('role','tab');b.onclick=()=>{stop();render(e.n)};eps.appendChild(b)});
+let size = 34; try{ size = +localStorage.getItem('mr-size') || 34 }catch(_){}
+if (window.innerWidth < 500 && !size) size = 26;
+const setSize = s => { size = Math.max(16, Math.min(80, s)); document.documentElement.style.setProperty('--size', size+'px'); try{ localStorage.setItem('mr-size', size) }catch(_){} };
+setSize(window.innerWidth < 500 ? Math.min(size, 28) : size);
+document.getElementById('plus').onclick = () => setSize(size+4);
+document.getElementById('minus').onclick = () => setSize(size-4);
+document.getElementById('top').onclick = () => { stop(); window.scrollTo(0,0) };
+let speed = 3, timer = null, lock = null, acc = 0;
+const sp = document.getElementById('speed'), play = document.getElementById('play');
+const showSpeed = () => sp.textContent = 'vit. '+speed;
+document.getElementById('slow').onclick = () => { speed = Math.max(1, speed-1); showSpeed() };
+document.getElementById('fast').onclick = () => { speed = Math.min(12, speed+1); showSpeed() };
+function tick(){ acc += speed*0.35; if (acc>=1){ const px=Math.floor(acc); acc-=px; window.scrollBy(0,px) } timer = requestAnimationFrame(tick) }
+async function start(){ play.setAttribute('aria-pressed','true'); play.textContent='❚❚ Pause'; timer = requestAnimationFrame(tick); try{ lock = await navigator.wakeLock?.request('screen') }catch(_){} }
+function stop(){ if (timer) cancelAnimationFrame(timer); timer=null; play.setAttribute('aria-pressed','false'); play.textContent='▶ Défiler'; }
+play.onclick = () => timer ? stop() : start();
+main.addEventListener('click', () => { if (timer) stop() });
+(async()=>{ try{ lock = await navigator.wakeLock?.request('screen') }catch(_){} })();
+document.addEventListener('visibilitychange', async()=>{ if (document.visibilityState==='visible'){ try{ lock = await navigator.wakeLock?.request('screen') }catch(_){} } });
+const themeBtn = document.getElementById('theme');
+const setTheme = w => { document.body.classList.toggle('blanc', w); themeBtn.textContent = w ? '☾ Fond noir' : '☀ Fond blanc'; try{ localStorage.setItem('mr-blanc', w?'1':'') }catch(_){} };
+themeBtn.onclick = () => setTheme(!document.body.classList.contains('blanc'));
+try{ if (localStorage.getItem('mr-blanc')) setTheme(true) }catch(_){}
+document.getElementById('fs').onclick = async () => { try{ if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen() }catch(_){} };
+let start0 = 1;
+const m = location.hash.match(/^#c(\d{1,2})$/); if (m && +m[1]>=1 && +m[1]<=13) start0 = +m[1];
+else { try{ const s=+localStorage.getItem('mr-ep'); if (s>=1&&s<=13) start0=s }catch(_){} }
+render(start0);
+</script>
+
+</body>
+</html>
