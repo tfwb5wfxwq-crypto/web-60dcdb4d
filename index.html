@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LDVK — Production Vidéo & Consulting Digital</title>
-  <meta name="description" content="LDVK — Agence de production vidéo et analyse de marché. Performance vidéo, veille concurrentielle, études de marché audiovisuel.">
+  <title>LDVK — Production Vidéo</title>
+  <meta name="description" content="LDVK — Production vidéo à Paris.">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ldvk.fr/">
-  <meta property="og:title" content="LDVK — Production Vidéo & Consulting Digital">
-  <meta property="og:description" content="Agence de production vidéo et analyse de marché.">
+  <meta property="og:title" content="LDVK — Production Vidéo">
+  <meta property="og:description" content="Production vidéo à Paris.">
   <meta property="og:image" content="https://ldvk.fr/og-image.png">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2310b981'/></linearGradient></defs><rect width='100' height='100' rx='16' fill='%230a0a0a'/><text x='50' y='78' font-family='system-ui,sans-serif' font-size='80' font-weight='700' fill='url(%23g)' text-anchor='middle'>L</text></svg>">
@@ -1191,10 +1191,6 @@
   <nav>
     <div class="nav-logo"><span>L</span><span>D</span><span>V</span><span>K</span></div>
     <div class="nav-links">
-      <a href="/portfolio" data-i18n="nav.portfolio">Projets</a>
-      <a href="/services" data-i18n="nav.services">Services</a>
-      <a href="/data-collection" data-i18n="nav.data">Data</a>
-      <a href="/about" data-i18n="nav.about">À propos</a>
       <a onclick="openModal('contact')" data-i18n="nav.contact">Contact</a>
       <button class="lang-toggle" onclick="toggleLang()">EN</button>
     </div>
@@ -1206,35 +1202,8 @@
     </h1>
     <p class="tagline">
       <span class="tagline-link video" onclick="openModal('video')" data-i18n="tagline.video">Production Vidéo</span>
-      <span class="tagline-sep">•</span>
-      <span class="tagline-link data" onclick="openModal('data')" data-i18n="tagline.data">Data</span>
     </p>
       </section>
-
-  <!-- Logo Carousel - Infinite Scroll -->
-  <div class="logo-carousel">
-    <div class="logo-track" id="logoTrack">
-      <img src="logos/winamax.png" alt="Winamax" loading="eager">
-      <img src="logos/laposte.png" alt="La Poste" loading="eager">
-      <img src="logos/webedia.png" alt="Webedia" loading="eager">
-      <img src="logos/macif.png" alt="Macif" loading="eager">
-      <img src="logos/francetv.png" alt="France TV" loading="eager">
-      <img src="logos/terrys.svg" alt="Terry's" loading="eager">
-      <img src="logos/coc.png" alt="Court ou Crève" loading="eager">
-      <img src="logos/primevideo.png" alt="Prime Video" loading="eager">
-      <img src="logos/freaks.png" alt="Freaks" loading="eager">
-      <!-- Duplicate for seamless loop -->
-      <img src="logos/winamax.png" alt="Winamax" loading="eager">
-      <img src="logos/laposte.png" alt="La Poste" loading="eager">
-      <img src="logos/webedia.png" alt="Webedia" loading="eager">
-      <img src="logos/macif.png" alt="Macif" loading="eager">
-      <img src="logos/francetv.png" alt="France TV" loading="eager">
-      <img src="logos/terrys.svg" alt="Terry's" loading="eager">
-      <img src="logos/coc.png" alt="Court ou Crève" loading="eager">
-      <img src="logos/primevideo.png" alt="Prime Video" loading="eager">
-      <img src="logos/freaks.png" alt="Freaks" loading="eager">
-    </div>
-  </div>
 
   <!-- Modal Video -->
   <div class="modal" id="modal-video">
@@ -1249,195 +1218,6 @@
         <li><span class="icon"><svg viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></span><span class="text" data-i18n="video.4">Motion design & animation</span></li>
         <li><span class="icon"><svg viewBox="0 0 24 24"><path d="M15 2H9a1 1 0 0 0-1 1v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><circle cx="12" cy="13" r="4"/></svg></span><span class="text" data-i18n="video.5">Captation événementielle</span></li>
       </ul>
-    </div>
-  </div>
-
-  <!-- Modal Portfolio -->
-  <div class="modal" id="modal-portfolio">
-    <div class="modal-content" style="max-width: 700px;">
-      <button class="modal-close" onclick="closeModal('portfolio')">×</button>
-      <h2 data-i18n="portfolio.title">Derniers Projets</h2>
-      <div class="stats-section">
-        <div class="stat-item">
-          <div class="stat-number" data-target="22">0</div>
-          <div class="stat-label" data-i18n="stats.campaigns">Campagnes 2025</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="45" data-suffix="M">0</div>
-          <div class="stat-label" data-i18n="stats.views">Vues générées</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="7" data-suffix=" ans">0</div>
-          <div class="stat-label" data-i18n="stats.experience">D'expérience</div>
-        </div>
-      </div>
-      <div class="portfolio-grid">
-        <div class="portfolio-item">
-          <video autoplay muted loop playsinline>
-            <source src="portfolio/videos/coc.mp4" type="video/mp4">
-          </video>
-          <div class="overlay">
-            <span class="client-name">Court ou Crève</span>
-            <span class="project-type">Série YouTube</span>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <video autoplay muted loop playsinline>
-            <source src="portfolio/videos/winamax.mp4" type="video/mp4">
-          </video>
-          <div class="overlay">
-            <span class="client-name">Winamax</span>
-            <span class="project-type">Série poker</span>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <video autoplay muted loop playsinline>
-            <source src="portfolio/videos/terrys.mp4" type="video/mp4">
-          </video>
-          <div class="overlay">
-            <span class="client-name">Terry's</span>
-            <span class="project-type">Sponsoring Instagram</span>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <video autoplay muted loop playsinline>
-            <source src="portfolio/videos/wina-aveugle.mp4" type="video/mp4">
-          </video>
-          <div class="overlay">
-            <span class="client-name">Winamax</span>
-            <span class="project-type">Série poker</span>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <video autoplay muted loop playsinline>
-            <source src="portfolio/videos/wina-botox.mp4" type="video/mp4">
-          </video>
-          <div class="overlay">
-            <span class="client-name">Winamax</span>
-            <span class="project-type">Série poker</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Analytics Dashboard -->
-      <div class="analytics-dashboard">
-        <div class="analytics-header">
-          <span class="analytics-title" data-i18n="portfolio.analytics">Tableau de bord client</span>
-          <span class="analytics-badge">Live</span>
-        </div>
-        <p class="analytics-desc">Données collectées et agrégées pour optimiser vos campagnes</p>
-
-        <div class="dashboard-grid">
-          <!-- Engagement Ring -->
-          <div class="dash-card">
-            <div class="ring-chart">
-              <svg viewBox="0 0 36 36">
-                <defs>
-                  <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#6366f1"/>
-                    <stop offset="100%" stop-color="#ec4899"/>
-                  </linearGradient>
-                </defs>
-                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                <path class="ring-fill" stroke-dasharray="68, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              </svg>
-              <span class="ring-value" data-base="6.8" data-suffix="%" data-decimal="true">0%</span>
-            </div>
-            <span class="dash-label">Engagement</span>
-            <span class="dash-compare">vs 2.1% marché</span>
-          </div>
-
-          <!-- Platform Split -->
-          <div class="dash-card">
-            <div class="platform-bars">
-              <div class="platform-row"><span class="platform-icon">▶</span><span class="platform-name">YouTube</span><div class="platform-bar"><div style="width: 45%"></div></div><span class="platform-pct">45%</span></div>
-              <div class="platform-row"><span class="platform-icon">◉</span><span class="platform-name">Instagram</span><div class="platform-bar"><div style="width: 35%"></div></div><span class="platform-pct">35%</span></div>
-              <div class="platform-row"><span class="platform-icon">♪</span><span class="platform-name">TikTok</span><div class="platform-bar"><div style="width: 20%"></div></div><span class="platform-pct">20%</span></div>
-            </div>
-            <span class="dash-label">Répartition plateformes</span>
-          </div>
-
-          <!-- Audience -->
-          <div class="dash-card">
-            <div class="audience-demo">
-              <div class="demo-row"><span class="demo-age">18-24</span><div class="demo-bar" style="--w: 35%"></div></div>
-              <div class="demo-row"><span class="demo-age">25-34</span><div class="demo-bar" style="--w: 45%"></div></div>
-              <div class="demo-row"><span class="demo-age">35-44</span><div class="demo-bar" style="--w: 15%"></div></div>
-              <div class="demo-row"><span class="demo-age">45+</span><div class="demo-bar" style="--w: 5%"></div></div>
-            </div>
-            <span class="dash-label">Démographie audience</span>
-          </div>
-
-          <!-- Growth -->
-          <div class="dash-card growth-card">
-            <div class="growth-value" data-base="247" data-prefix="+" data-suffix="%">0%</div>
-            <div class="growth-trend">
-              <svg viewBox="0 0 100 30" class="sparkline">
-                <polyline points="0,25 15,22 30,18 45,20 60,12 75,8 100,2"/>
-              </svg>
-            </div>
-            <span class="dash-label">Croissance YoY</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- CTA 2026 -->
-      <div class="cta-2026" onclick="closeModal('portfolio'); setTimeout(() => openModal('contact'), 300);">
-        <span class="cta-year">2026</span>
-        <span class="cta-text" data-i18n="portfolio.cta">Votre projet commence ici</span>
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Data -->
-  <div class="modal" id="modal-data">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('data')">×</button>
-      <h2 data-i18n="data.title">Data & Analytics</h2>
-      <p data-i18n="data.desc">Suivi et analyse des performances de vos contenus vidéo.</p>
-      <ul>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="text" data-i18n="data.1">Rapports de performance — Vues, engagement, progression de vos vidéos</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span><span class="text" data-i18n="data.2">Veille marché — Tendances du secteur, formats qui fonctionnent</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span><span class="text" data-i18n="data.3">Benchmarking — Positionnement par rapport au marché</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span class="text" data-i18n="data.4">Études d'audience — Comprendre votre public cible</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 16h.01"/><path d="M16 16h.01"/></svg></span><span class="text" data-i18n="data.5">Tableaux de bord — Suivi en temps réel de vos campagnes</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></span><span class="text" data-i18n="data.6">Veille concurrentielle — Monitoring de prix, collecte de données publiques</span></li>
-      </ul>
-      <div class="data-method">
-        <h3 data-i18n="data.method.title">Notre méthode</h3>
-        <p data-i18n="data.method.desc">Nous collectons et agrégeons des données publiquement accessibles sur le web : statistiques de vues, tendances de recherche, prix concurrents, et métriques d'engagement. Ces données sont transformées en rapports actionnables pour nos clients dans les secteurs média, e-commerce et entertainment.</p>
-        <p style="margin-top: 0.8rem; font-size: 0.8rem; color: rgba(255,255,255,0.5);" data-i18n="data.method.why">Pour collecter ces données à grande échelle et depuis différentes régions géographiques, nous utilisons des services de proxy résidentiels qui nous permettent de contourner les limitations de requêtes et d'accéder aux contenus géo-localisés. Nous respectons les fichiers robots.txt et les conditions d'utilisation des sites sources.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Services (all) -->
-  <div class="modal" id="modal-services">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('services')">×</button>
-      <h2 data-i18n="services.title">Tous nos services</h2>
-      <p data-i18n="services.desc">Production vidéo et suivi de performance pour nos clients.</p>
-      <ul>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 12h16"/><path d="M12 4v8"/></svg></span><span class="text" data-i18n="services.1">Production Vidéo — Spots, films, contenus social media</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="text" data-i18n="services.2">Rapports de Performance — Suivi des vues et engagement</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span><span class="text" data-i18n="services.3">Études de Marché — Tendances du secteur vidéo</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span><span class="text" data-i18n="services.4">Benchmarking — Positionnement de vos contenus</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span class="text" data-i18n="services.5">Analyse d'Audience — Comprendre votre public</span></li>
-        <li><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 16h.01"/><path d="M16 16h.01"/></svg></span><span class="text" data-i18n="services.6">Tableaux de Bord — Suivi de vos campagnes</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Modal About -->
-  <div class="modal" id="modal-about">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('about')">×</button>
-      <h2 data-i18n="about.title">À propos</h2>
-      <p data-i18n="about.1">LDVK est une agence française de production vidéo et de conseil data. Nous créons des contenus pour les marques et analysons leurs performances.</p>
-      <p data-i18n="about.2">Notre service d'analyse permet à nos clients de suivre les résultats de leurs campagnes : vues, engagement, progression, et positionnement sur le marché.</p>
-      <p data-i18n="about.3">Nous collectons et agrégeons des données publiques web pour fournir des rapports personnalisés à nos clients dans divers secteurs (média, transport, e-commerce, etc.).</p>
-      <p style="margin-top: 2rem; color: rgba(255,255,255,0.4); font-size: 0.9rem;" data-i18n="about.4">Basés en France — Actifs depuis 2019</p>
     </div>
   </div>
 
@@ -1498,18 +1278,8 @@
     // Translations
     const translations = {
       fr: {
-        'nav.portfolio': 'Projets',
-        'nav.services': 'Services',
-        'nav.data': 'Data',
-        'nav.about': 'À propos',
         'nav.contact': 'Contact',
-        'portfolio.title': 'Derniers Projets',
-        'portfolio.desc': 'Contenus créatifs pour nos clients.',
-        'portfolio.analytics': 'Tableau de bord client',
-        'portfolio.analytics.desc': 'Ciblage géolocalisé • Analyse d\'audience • Suivi marché en temps réel',
-        'portfolio.cta': 'Votre projet commence ici',
         'tagline.video': 'Production Vidéo',
-        'tagline.data': 'Data',
         'video.title': 'Production Vidéo',
         'video.desc': 'Création de contenus audiovisuels pour les marques et créateurs.',
         'video.1': 'Spots publicitaires & films de marque',
@@ -1517,35 +1287,8 @@
         'video.3': 'Podcasts vidéo & interviews',
         'video.4': 'Motion design & animation',
         'video.5': 'Captation événementielle',
-        'data.title': 'Data & Analytics',
-        'data.desc': 'Suivi et analyse des performances de vos contenus vidéo.',
-        'data.1': 'Rapports de performance — Vues, engagement, progression de vos vidéos',
-        'data.2': 'Veille marché — Tendances du secteur, formats qui fonctionnent',
-        'data.3': 'Benchmarking — Positionnement par rapport au marché',
-        'data.4': 'Études d\'audience — Comprendre votre public cible',
-        'data.5': 'Tableaux de bord — Suivi en temps réel de vos campagnes',
-        'data.6': 'Veille concurrentielle — Monitoring de prix, collecte de données publiques',
-        'data.method.title': 'Notre méthode',
-        'data.method.desc': 'Nous collectons et agrégeons des données publiquement accessibles sur le web : statistiques de vues, tendances de recherche, prix concurrents, et métriques d\'engagement. Ces données sont transformées en rapports actionnables pour nos clients dans les secteurs média, e-commerce et entertainment.',
-        'data.method.why': 'Pour collecter ces données à grande échelle et depuis différentes régions géographiques, nous utilisons des services de proxy résidentiels qui nous permettent de contourner les limitations de requêtes et d\'accéder aux contenus géo-localisés. Nous respectons les fichiers robots.txt et les conditions d\'utilisation des sites sources.',
-        'services.title': 'Tous nos services',
-        'services.desc': 'Production vidéo et suivi de performance pour nos clients.',
-        'services.1': 'Production Vidéo — Spots, films, contenus social media',
-        'services.2': 'Rapports de Performance — Suivi des vues et engagement',
-        'services.3': 'Études de Marché — Tendances du secteur vidéo',
-        'services.4': 'Benchmarking — Positionnement de vos contenus',
-        'services.5': 'Analyse d\'Audience — Comprendre votre public',
-        'services.6': 'Tableaux de Bord — Suivi de vos campagnes',
-        'about.title': 'À propos',
-        'about.1': 'LDVK est une agence française de production vidéo et de conseil data. Nous créons des contenus pour les marques et analysons leurs performances.',
-        'about.2': 'Notre service d\'analyse permet à nos clients de suivre les résultats de leurs campagnes : vues, engagement, progression, et positionnement sur le marché.',
-        'about.3': 'Nous collectons et agrégeons des données publiques web pour fournir des rapports personnalisés à nos clients dans divers secteurs (média, transport, e-commerce, etc.).',
-        'about.4': 'Basés en France — Actifs depuis 2019',
-        'stats.campaigns': 'Campagnes 2025',
-        'stats.views': 'Vues générées',
-        'stats.experience': 'D\'expérience',
         'contact.title': 'On discute ?',
-        'contact.desc': 'Un projet ? Une question sur nos services d\'analyse ou de production ?',
+        'contact.desc': 'Un projet vidéo ? Une question ? Écrivez-nous.',
         'chat.greeting': 'Hey ! C\'est quoi ton prénom ?',
         'chat.nice': 'Enchanté',
         'chat.noted': 'Parfait, noté.',
@@ -1561,18 +1304,8 @@
         'chat.messagePlaceholder': 'Ton message...'
       },
       en: {
-        'nav.portfolio': 'Projects',
-        'nav.services': 'Services',
-        'nav.data': 'Data',
-        'nav.about': 'About',
         'nav.contact': 'Contact',
-        'portfolio.title': 'Latest Projects',
-        'portfolio.desc': 'Creative content for our clients.',
-        'portfolio.analytics': 'Client dashboard',
-        'portfolio.analytics.desc': 'Geo-targeted • Audience analysis • Real-time market tracking',
-        'portfolio.cta': 'Your project starts here',
         'tagline.video': 'Video Production',
-        'tagline.data': 'Data',
         'video.title': 'Video Production',
         'video.desc': 'Creating audiovisual content for brands and creators.',
         'video.1': 'Commercials & brand films',
@@ -1580,35 +1313,8 @@
         'video.3': 'Video podcasts & interviews',
         'video.4': 'Motion design & animation',
         'video.5': 'Event coverage',
-        'data.title': 'Data & Analytics',
-        'data.desc': 'Track and analyze the performance of your video content.',
-        'data.1': 'Performance reports — Views, engagement, growth of your videos',
-        'data.2': 'Market research — Industry trends, formats that work',
-        'data.3': 'Benchmarking — Your position relative to the market',
-        'data.4': 'Audience insights — Understand your target audience',
-        'data.5': 'Dashboards — Real-time tracking of your campaigns',
-        'data.6': 'Competitive intelligence — Price monitoring, public data collection',
-        'data.method.title': 'Our method',
-        'data.method.desc': 'We collect and aggregate publicly accessible web data: view statistics, search trends, competitor pricing, and engagement metrics. This data is transformed into actionable reports for our clients in media, e-commerce, and entertainment sectors.',
-        'data.method.why': 'To collect this data at scale and from different geographic regions, we use residential proxy services that allow us to bypass rate limits and access geo-restricted content. We comply with robots.txt files and the terms of service of source websites.',
-        'services.title': 'All our services',
-        'services.desc': 'Video production and performance tracking for our clients.',
-        'services.1': 'Video Production — Commercials, films, social content',
-        'services.2': 'Performance Reports — Track views and engagement',
-        'services.3': 'Market Research — Video industry trends',
-        'services.4': 'Benchmarking — Position your content',
-        'services.5': 'Audience Analysis — Understand your viewers',
-        'services.6': 'Dashboards — Monitor your campaigns',
-        'about.title': 'About',
-        'about.1': 'LDVK is a French video production and data consulting agency. We create content for brands and analyze their performance.',
-        'about.2': 'Our analytics service helps clients track campaign results: views, engagement, growth, and market positioning.',
-        'about.3': 'We collect and aggregate public web data to provide custom reports for clients across various industries (media, transport, e-commerce, etc.).',
-        'about.4': 'Based in France — Active since 2019',
-        'stats.campaigns': 'Campaigns 2025',
-        'stats.views': 'Views generated',
-        'stats.experience': 'Of experience',
         'contact.title': 'Let\'s chat?',
-        'contact.desc': 'Have a project? A question about our analysis or production services?',
+        'contact.desc': 'A video project? A question? Write to us.',
         'chat.greeting': 'Hey! What\'s your first name?',
         'chat.nice': 'Nice to meet you',
         'chat.noted': 'Perfect, noted.',
@@ -1987,39 +1693,6 @@
         openModal('contact');
       }
 
-      // Logo carousel: wait for images to load, then calculate scroll distance
-      const track = document.getElementById('logoTrack');
-      const images = track.querySelectorAll('img');
-      let loaded = 0;
-      const totalImages = images.length;
-
-      function startCarousel() {
-        // Calculate half width (first set of logos)
-        const halfWidth = track.scrollWidth / 2;
-        track.style.setProperty('--scroll-distance', `-${halfWidth}px`);
-        track.classList.add('animate');
-      }
-
-      images.forEach(img => {
-        if (img.complete) {
-          loaded++;
-          if (loaded === totalImages) startCarousel();
-        } else {
-          img.addEventListener('load', () => {
-            loaded++;
-            if (loaded === totalImages) startCarousel();
-          });
-          img.addEventListener('error', () => {
-            loaded++;
-            if (loaded === totalImages) startCarousel();
-          });
-        }
-      });
-
-      // Fallback: start after 2s even if not all loaded
-      setTimeout(() => {
-        if (!track.classList.contains('animate')) startCarousel();
-      }, 2000);
     });
 
     // Also check on hash change
