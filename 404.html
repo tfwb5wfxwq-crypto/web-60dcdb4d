@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page introuvable · LDVK</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2310b981'/></linearGradient></defs><rect width='100' height='100' rx='16' fill='%230a0a0a'/><text x='50' y='78' font-family='system-ui,sans-serif' font-size='80' font-weight='700' fill='url(%23g)' text-anchor='middle'>L</text></svg>">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=clash-display@600,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #050505;
+      color: #fff;
+      font-family: 'General Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 60%);
+      animation: gradientShift 15s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .grain {
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      animation: grainMove 0.5s steps(10) infinite;
+    }
+
+    @keyframes grainMove {
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-2%, -2%); }
+      20% { transform: translate(1%, 3%); }
+      30% { transform: translate(-3%, 1%); }
+      40% { transform: translate(3%, -1%); }
+      50% { transform: translate(-1%, 2%); }
+      60% { transform: translate(2%, -3%); }
+      70% { transform: translate(-2%, 3%); }
+      80% { transform: translate(3%, 2%); }
+      90% { transform: translate(-1%, -2%); }
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1.5rem 2rem;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    /* "404" en grand, mêmes couleurs que les lettres LDVK au survol, sans déplacement */
+    .code {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(5rem, 22vw, 11rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      display: flex;
+      gap: 0.02em;
+    }
+
+    .code span {
+      display: inline-block;
+      transition: filter 0.4s ease;
+      background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .code span:nth-child(1):hover { background: #6366f1; -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.6)); }
+    .code span:nth-child(2):hover { background: #ec4899; -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.6)); }
+    .code span:nth-child(3):hover { background: #10b981; -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.6)); }
+
+    .message {
+      margin-top: 1.5rem;
+      font-size: clamp(1rem, 3.5vw, 1.25rem);
+      color: rgba(255,255,255,0.55);
+    }
+
+    .back {
+      margin-top: 2.5rem;
+      padding: 0.8rem 1.6rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .back:hover {
+      color: #fff;
+      border-color: #ec4899;
+      box-shadow: 0 0 24px rgba(236, 72, 153, 0.35);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-gradient"></div>
+  <div class="grain"></div>
+
+  <nav>
+    <a class="nav-logo" href="/">LDVK</a>
+  </nav>
+
+  <section class="hero">
+    <h1 class="code" aria-label="404"><span>4</span><span>0</span><span>4</span></h1>
+    <p class="message">Coupez ! Cette page n'existe pas, ou plus.</p>
+    <a class="back" href="/">Retour à l'accueil</a>
+  </section>
+
+</body>
+</html>
